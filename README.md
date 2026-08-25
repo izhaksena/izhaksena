@@ -302,7 +302,11 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/izhaksena/izhaksena/output/github-contribution-grid-snake-dark.svg" width="100%" />
+<img
+  src="https://raw.githubusercontent.com/izhaksena/izhaksena/gh-pages/github-contribution-grid-snake-dark.svg"
+  width="100%"
+  alt="GitHub Contribution Snake"
+/>
 
 </div>
 
