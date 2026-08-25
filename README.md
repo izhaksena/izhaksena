@@ -282,7 +282,11 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=izhaksena&bg_color=0D1117&color=00F5FF&line=00F5FF&point=FFFFFF&area=true&hide_border=true" width="100%" />
+<img
+  src="./profile/activity.svg"
+  width="100%"
+  alt="GitHub Activity Graph"
+/>
 
 </div>
 
