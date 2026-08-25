@@ -261,14 +261,28 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="./profile/stats.svg" width="49%" />
-<img src="./profile/languages.svg" width="49%" />
+<img
+src="./profile/stats.svg"
+width="49%"
+alt="GitHub Statistics"
+/>
+
+<img
+src="./profile/languages.svg"
+width="49%"
+alt="Language Matrix"
+/>
 
 <br/>
 
-<img src="./profile/streak.svg" width="70%" />
+<img
+src="./profile/streak.svg"
+width="70%"
+alt="Development Status"
+/>
 
 </div>
+
 
 
 ---
