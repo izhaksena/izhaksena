@@ -267,6 +267,8 @@ width="100%"
 alt="GitHub Statistics"
 />
 
+<br/>
+
 <img
 src="./profile/languages.svg"
 width="100%"
@@ -282,6 +284,7 @@ alt="Development Status"
 />
 
 </div>
+
 
 
 ---
