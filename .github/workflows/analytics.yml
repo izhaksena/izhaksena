@@ -1,0 +1,390 @@
+name: Generate GitHub Analytics
+
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Analytics
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import urllib.request
+          from collections import Counter
+          from datetime import datetime
+
+          USERNAME = "izhaksena"
+          TOKEN = os.environ["GITHUB_TOKEN"]
+
+          API = "https://api.github.com"
+
+          headers = {
+              "Authorization": f"Bearer {TOKEN}",
+              "Accept": "application/vnd.github+json",
+              "User-Agent": "izhaksena-analytics"
+          }
+
+          def github_get(url):
+              request = urllib.request.Request(url, headers=headers)
+
+              with urllib.request.urlopen(request) as response:
+                  return json.loads(response.read().decode("utf-8"))
+
+          print("Fetching GitHub profile...")
+
+          user = github_get(f"{API}/users/{USERNAME}")
+
+          print("Fetching repositories...")
+
+          repositories = []
+          page = 1
+
+          while True:
+              data = github_get(
+                  f"{API}/users/{USERNAME}/repos"
+                  f"?per_page=100&page={page}&type=owner"
+              )
+
+              if not data:
+                  break
+
+              repositories.extend(data)
+
+              if len(data) < 100:
+                  break
+
+              page += 1
+
+          print(f"Repositories found: {len(repositories)}")
+
+          # ==========================================================
+          # STATISTICS
+          # ==========================================================
+
+          public_repos = user.get("public_repos", 0)
+          followers = user.get("followers", 0)
+          following = user.get("following", 0)
+
+          stars = sum(repo.get("stargazers_count", 0) for repo in repositories)
+          forks = sum(repo.get("forks_count", 0) for repo in repositories)
+
+          languages = Counter()
+
+          for repo in repositories:
+
+              language = repo.get("language")
+
+              if language:
+                  languages[language] += 1
+
+          total_languages = sum(languages.values())
+
+          top_languages = languages.most_common(6)
+
+          # ==========================================================
+          # COLORS
+          # ==========================================================
+
+          BG = "#0D1117"
+          PANEL = "#111820"
+          CYAN = "#00F5FF"
+          BLUE = "#00A8FF"
+          TEXT = "#C9D1D9"
+          MUTED = "#6E7681"
+          BORDER = "#16333A"
+
+          # ==========================================================
+          # SVG HELPERS
+          # ==========================================================
+
+          def text(x, y, content, size=14, color=TEXT, weight="normal"):
+              return (
+                  f'<text x="{x}" y="{y}" '
+                  f'font-family="monospace" '
+                  f'font-size="{size}px" '
+                  f'font-weight="{weight}" '
+                  f'fill="{color}">{content}</text>'
+              )
+
+          def panel(x, y, width, height):
+              return (
+                  f'<rect x="{x}" y="{y}" '
+                  f'width="{width}" height="{height}" '
+                  f'rx="8" fill="{PANEL}" '
+                  f'stroke="{BORDER}" stroke-width="1"/>'
+              )
+
+          # ==========================================================
+          # STATS SVG
+          # ==========================================================
+
+          stats = []
+
+          stats.append(
+              '<svg xmlns="http://www.w3.org/2000/svg" '
+              'width="600" height="260" viewBox="0 0 600 260">'
+          )
+
+          stats.append(f'<rect width="600" height="260" fill="{BG}"/>')
+
+          stats.append(panel(10, 10, 580, 240))
+
+          stats.append(
+              text(35, 48, "&gt; GITHUB_STATISTICS",
+                   21, CYAN, "bold")
+          )
+
+          stats.append(
+              text(35, 73, "SYSTEM PROFILE // IZHAKSENA",
+                   11, MUTED)
+          )
+
+          items = [
+              ("PUBLIC REPOSITORIES", public_repos),
+              ("TOTAL STARS", stars),
+              ("TOTAL FORKS", forks),
+              ("FOLLOWERS", followers),
+              ("FOLLOWING", following),
+          ]
+
+          positions = [
+              (40, 115),
+              (240, 115),
+              (440, 115),
+              (140, 190),
+              (340, 190)
+          ]
+
+          for (label, value), (x, y) in zip(items, positions):
+
+              stats.append(text(
+                  x, y, str(value),
+                  25, CYAN, "bold"
+              ))
+
+              stats.append(text(
+                  x, y + 20, label,
+                  9, MUTED
+              ))
+
+          stats.append(
+              text(35, 235, "[ ONLINE ]",
+                   10, BLUE, "bold")
+          )
+
+          stats.append("</svg>")
+
+          # ==========================================================
+          # LANGUAGES SVG
+          # ==========================================================
+
+          langs = []
+
+          langs.append(
+              '<svg xmlns="http://www.w3.org/2000/svg" '
+              'width="600" height="260" viewBox="0 0 600 260">'
+          )
+
+          langs.append(f'<rect width="600" height="260" fill="{BG}"/>')
+
+          langs.append(panel(10, 10, 580, 240))
+
+          langs.append(
+              text(35, 48, "&gt; LANGUAGE_MATRIX",
+                   21, CYAN, "bold")
+          )
+
+          langs.append(
+              text(35, 73, "REPOSITORY LANGUAGE DISTRIBUTION",
+                   11, MUTED)
+          )
+
+          if total_languages == 0:
+
+              langs.append(
+                  text(35, 125, "NO LANGUAGE DATA AVAILABLE",
+                      13, MUTED)
+              )
+
+          else:
+
+              y = 105
+
+              language_colors = [
+                  CYAN,
+                  BLUE,
+                  "#00D4FF",
+                  "#0088AA",
+                  "#006680",
+                  "#004C5C"
+              ]
+
+              for index, (language, count) in enumerate(top_languages):
+
+                  percentage = (count / total_languages) * 100
+
+                  bar_width = int(280 * percentage / 100)
+
+                  color = language_colors[
+                      index % len(language_colors)
+                  ]
+
+                  langs.append(
+                      text(35, y, language,
+                           12, TEXT, "bold")
+                  )
+
+                  langs.append(
+                      f'<rect x="160" y="{y-12}" '
+                      f'width="280" height="10" rx="3" '
+                      f'fill="#18232A"/>'
+                  )
+
+                  langs.append(
+                      f'<rect x="160" y="{y-12}" '
+                      f'width="{bar_width}" height="10" rx="3" '
+                      f'fill="{color}"/>'
+                  )
+
+                  langs.append(
+                      text(
+                          455,
+                          y,
+                          f"{percentage:.1f}%",
+                          11,
+                          color,
+                          "bold"
+                      )
+                  )
+
+                  y += 25
+
+          langs.append("</svg>")
+
+          # ==========================================================
+          # STREAK SVG
+          # ==========================================================
+
+          streak = []
+
+          streak.append(
+              '<svg xmlns="http://www.w3.org/2000/svg" '
+              'width="900" height="210" viewBox="0 0 900 210">'
+          )
+
+          streak.append(f'<rect width="900" height="210" fill="{BG}"/>')
+
+          streak.append(panel(10, 10, 880, 190))
+
+          streak.append(
+              text(35, 48, "&gt; DEVELOPMENT_STATUS",
+                   21, CYAN, "bold")
+          )
+
+          streak.append(
+              text(35, 73, "PROFILE ACTIVITY MONITOR",
+                   11, MUTED)
+          )
+
+          streak.append(
+              text(45, 125, "REPOSITORIES",
+                   10, MUTED)
+          )
+
+          streak.append(
+              text(45, 155, str(public_repos),
+                   27, CYAN, "bold")
+          )
+
+          streak.append(
+              text(250, 125, "STARS",
+                   10, MUTED)
+          )
+
+          streak.append(
+              text(250, 155, str(stars),
+                   27, CYAN, "bold")
+          )
+
+          streak.append(
+              text(455, 125, "FORKS",
+                   10, MUTED)
+          )
+
+          streak.append(
+              text(455, 155, str(forks),
+                   27, CYAN, "bold")
+          )
+
+          streak.append(
+              text(660, 125, "FOLLOWERS",
+                   10, MUTED)
+          )
+
+          streak.append(
+              text(660, 155, str(followers),
+                   27, CYAN, "bold")
+          )
+
+          streak.append(
+              text(35, 185, "[ SYSTEM OPERATIONAL ]",
+                   10, BLUE, "bold")
+          )
+
+          streak.append("</svg>")
+
+          # ==========================================================
+          # SAVE
+          # ==========================================================
+
+          os.makedirs("profile", exist_ok=True)
+
+          with open("profile/stats.svg", "w", encoding="utf-8") as f:
+              f.write("\n".join(stats))
+
+          with open("profile/languages.svg", "w", encoding="utf-8") as f:
+              f.write("\n".join(langs))
+
+          with open("profile/streak.svg", "w", encoding="utf-8") as f:
+              f.write("\n".join(streak))
+
+          print("======================================")
+          print("GitHub Analytics generated successfully")
+          print("======================================")
+          print(f"Repositories: {public_repos}")
+          print(f"Stars: {stars}")
+          print(f"Forks: {forks}")
+          print(f"Followers: {followers}")
+          print(f"Languages detected: {total_languages}")
+          PY
+
+      - name: Commit Analytics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add profile/stats.svg
+          git add profile/languages.svg
+          git add profile/streak.svg
+
+          git commit -m "chore: update github analytics" || exit 0
+
+          git push
