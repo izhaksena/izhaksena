@@ -292,7 +292,11 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="https://github-profile-trophy.vercel.app/?username=izhaksena&theme=algolia&no-frame=true&no-bg=true&margin-w=8&row=1&column=6" width="100%" />
+<img
+  src="./profile/trophy.svg"
+  width="100%"
+  alt="GitHub Trophies"
+/>
 
 </div>
 
