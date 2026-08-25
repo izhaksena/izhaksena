@@ -230,9 +230,9 @@ $ ./izhak.exe --current-objectives
 
 [████████████████████] 100%  C# Fundamentals
 [█████████████████░░░]  85%  Object-Oriented Programming
-[██████████████░░░░░░]  70%  JavaScript
-[███████████░░░░░░░░░]  55%  Databases
-[████████░░░░░░░░░░░░]  40%  Backend Development
+[██████████░░░░░░░░░░]  45%  JavaScript
+[███░░░░░░░░░░░░░░░░░]  10%  Databases
+[████░░░░░░░░░░░░░░░░]  25%  Backend Development
 [██████░░░░░░░░░░░░░░]  30%  APIs / REST
 ```
 
