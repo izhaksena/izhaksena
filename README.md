@@ -263,13 +263,13 @@ MISSION OBJECTIVES
 
 <img
 src="./profile/stats.svg"
-width="49%"
+width="60%"
 alt="GitHub Statistics"
 />
 
 <img
 src="./profile/languages.svg"
-width="49%"
+width="60%"
 alt="Language Matrix"
 />
 
@@ -283,21 +283,6 @@ alt="Development Status"
 
 </div>
 
-
-
----
-
-# `> ACTIVITY_GRAPH`
-
-<div align="center">
-
-<img
-  src="./profile/activity.svg"
-  width="100%"
-  alt="GitHub Activity Graph"
-/>
-
-</div>
 
 ---
 
