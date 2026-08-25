@@ -262,17 +262,22 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=izhaks-ena-stack&show_icons=true&theme=github_dark&hide_border=true&include_all_commits=true&count_private=true&title_color=00F5FF&icon_color=00F5FF"/>
+<img
+  src="https://github-readme-stats.vercel.app/api?username=izhaks-ena-stack&show_icons=true&theme=github_dark&hide_border=true&rank_icon=github&include_all_commits=true&count_private=true&title_color=00F5FF&icon_color=00F5FF&text_color=C9D1D9&bg_color=0D1117"
+  width="49%"
+/>
 
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=izhaks-ena-stack&layout=compact&theme=github_dark&hide_border=true&title_color=00F5FF"/>
+<img
+  src="https://github-readme-stats.vercel.app/api/top-langs/?username=izhaks-ena-stack&layout=compact&theme=github_dark&hide_border=true&langs_count=8&title_color=00F5FF&text_color=C9D1D9&bg_color=0D1117"
+  width="49%"
+/>
 
-</div>
+<br><br>
 
-<br>
-
-<div align="center">
-
-<img src="https://streak-stats.demolab.com?user=izhaks-ena-stack&theme=dark&hide_border=true&background=0D1117&ring=00F5FF&fire=00F5FF&currStreakLabel=00F5FF" />
+<img
+  src="https://streak-stats.demolab.com/?user=izhaks-ena-stack&theme=github-dark-blue&hide_border=true&background=0D1117&ring=00F5FF&fire=00F5FF&currStreakLabel=00F5FF"
+  width="70%"
+/>
 
 </div>
 
@@ -282,7 +287,10 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=izhaks-ena-stack&bg_color=0D1117&color=00F5FF&line=00F5FF&point=FFFFFF&area=true&hide_border=true" width="100%"/>
+<img
+  src="https://github-readme-activity-graph.vercel.app/graph?username=izhaks-ena-stack&bg_color=0D1117&color=00F5FF&line=00F5FF&point=FFFFFF&area=true&hide_border=true"
+  width="100%"
+/>
 
 </div>
 
@@ -292,7 +300,10 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="https://github-profile-trophy.vercel.app/?username=izhaks-ena-stack&theme=algolia&no-frame=true&no-bg=true&margin-w=10&row=1&column=7" width="100%"/>
+<img
+  src="https://github-profile-trophy.vercel.app/?username=izhaks-ena-stack&theme=algolia&no-frame=true&no-bg=true&margin-w=10&row=1&column=7"
+  width="100%"
+/>
 
 </div>
 
@@ -302,7 +313,11 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/izhaks-ena-stack/izhaks-ena-stack/output/github-contribution-grid-snake-dark.svg" alt="Snake animation"/>
+<img
+  src="https://raw.githubusercontent.com/izhaks-ena-stack/izhaks-ena-stack/output/github-contribution-grid-snake-dark.svg"
+  alt="Snake animation"
+  width="100%"
+/>
 
 </div>
 
