@@ -257,30 +257,16 @@ MISSION OBJECTIVES
 ```
 
 ---
-
 # `> GITHUB_ANALYTICS`
 
 <div align="center">
 
-<img
-src="https://github-readme-stats.vercel.app/api?username=izhaksena&show_icons=true&theme=github_dark&hide_border=true&title_color=00F5FF&icon_color=00F5FF&text_color=C9D1D9&bg_color=0D1117"
-width="49%"
-alt="GitHub Statistics"
-/>
-
-<img
-src="https://github-readme-stats.vercel.app/api/top-langs/?username=izhaksena&layout=compact&theme=github_dark&hide_border=true&title_color=00F5FF&text_color=C9D1D9&bg_color=0D1117"
-width="49%"
-alt="Most Used Languages"
-/>
+<img src="./profile/stats.svg" width="49%" />
+<img src="./profile/languages.svg" width="49%" />
 
 <br/>
 
-<img
-src="https://streak-stats.demolab.com/?user=izhaksena&theme=github-dark-blue&hide_border=true&background=0D1117&ring=00F5FF&fire=00F5FF&currStreakLabel=00F5FF"
-width="70%"
-alt="GitHub Contribution Streak"
-/>
+<img src="./profile/streak.svg" width="70%" />
 
 </div>
 
