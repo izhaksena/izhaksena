@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="260" viewBox="0 0 600 260">
+<rect width="600" height="260" fill="#0D1117"/>
+<rect x="10" y="10" width="580" height="240" rx="8" fill="#111820" stroke="#16333A" stroke-width="1"/>
+<text x="35" y="48" font-family="monospace" font-size="21px" font-weight="bold" fill="#00F5FF">&gt; LANGUAGE_MATRIX</text>
+<text x="35" y="73" font-family="monospace" font-size="11px" font-weight="normal" fill="#6E7681">REPOSITORY LANGUAGE DISTRIBUTION</text>
+<text x="35" y="105" font-family="monospace" font-size="12px" font-weight="bold" fill="#C9D1D9">HTML</text>
+<rect x="160" y="93" width="280" height="10" rx="3" fill="#18232A"/>
+<rect x="160" y="93" width="280" height="10" rx="3" fill="#00F5FF"/>
+<text x="455" y="105" font-family="monospace" font-size="11px" font-weight="bold" fill="#00F5FF">100.0%</text>
+</svg>
