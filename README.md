@@ -262,22 +262,17 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img
-  src="https://github-readme-stats.vercel.app/api?username=izhaksena&show_icons=true&theme=github_dark&hide_border=true&rank_icon=github&include_all_commits=true&count_private=true&title_color=00F5FF&icon_color=00F5FF&text_color=C9D1D9&bg_color=0D1117"
-  width="49%"
-/>
+<a href="https://github.com/izhaksena">
+  <img src="https://github-readme-stats.vercel.app/api?username=izhaksena&show_icons=true&theme=github_dark&hide_border=true&title_color=00F5FF&icon_color=00F5FF&text_color=C9D1D9&bg_color=0D1117" width="49%" />
+</a>
 
-<img
-  src="https://github-readme-stats.vercel.app/api/top-langs/?username=izhaksena&layout=compact&theme=github_dark&hide_border=true&langs_count=8&title_color=00F5FF&text_color=C9D1D9&bg_color=0D1117"
-  width="49%"
-/>
+<a href="https://github.com/izhaksena">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=izhaksena&layout=compact&theme=github_dark&hide_border=true&title_color=00F5FF&text_color=C9D1D9&bg_color=0D1117" width="49%" />
+</a>
 
-<br><br>
+<br/>
 
-<img
-  src="https://streak-stats.demolab.com/?user=izhaksena&theme=github-dark-blue&hide_border=true&background=0D1117&ring=00F5FF&fire=00F5FF&currStreakLabel=00F5FF"
-  width="70%"
-/>
+<img src="https://streak-stats.demolab.com/?user=izhaksena&theme=github-dark-blue&hide_border=true&background=0D1117&ring=00F5FF&fire=00F5FF&currStreakLabel=00F5FF" width="70%" />
 
 </div>
 
@@ -287,10 +282,7 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img
-  src="https://github-readme-activity-graph.vercel.app/graph?username=izhaksena&bg_color=0D1117&color=00F5FF&line=00F5FF&point=FFFFFF&area=true&hide_border=true"
-  width="100%"
-/>
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=izhaksena&bg_color=0D1117&color=00F5FF&line=00F5FF&point=FFFFFF&area=true&hide_border=true" width="100%" />
 
 </div>
 
@@ -300,10 +292,7 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img
-  src="https://github-profile-trophy.vercel.app/?username=izhaksena&theme=algolia&no-frame=true&no-bg=true&margin-w=10&row=1&column=7"
-  width="100%"
-/>
+<img src="https://github-profile-trophy.vercel.app/?username=izhaksena&theme=algolia&no-frame=true&no-bg=true&margin-w=8&row=1&column=6" width="100%" />
 
 </div>
 
@@ -313,11 +302,7 @@ MISSION OBJECTIVES
 
 <div align="center">
 
-<img
-  src="https://raw.githubusercontent.com/izhaksena/izhaksena/output/github-contribution-grid-snake-dark.svg"
-  alt="Snake animation"
-  width="100%"
-/>
+<img src="https://raw.githubusercontent.com/izhaksena/izhaksena/output/github-contribution-grid-snake-dark.svg" width="100%" />
 
 </div>
 
