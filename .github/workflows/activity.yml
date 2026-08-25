@@ -3,7 +3,6 @@ name: Generate Activity Graph
 on:
   schedule:
     - cron: "0 1 * * *"
-
   workflow_dispatch:
 
 jobs:
@@ -25,15 +24,13 @@ jobs:
           import json
           import os
           import urllib.request
-          from datetime import datetime
 
           username = "izhaksena"
           token = os.environ["GITHUB_TOKEN"]
 
           query = """
           query {
-            viewer {
-              login
+            user(login: "izhaksena") {
               contributionsCollection {
                 contributionCalendar {
                   totalContributions
@@ -59,14 +56,31 @@ jobs:
               headers={
                   "Authorization": f"Bearer {token}",
                   "Content-Type": "application/json",
-                  "User-Agent": "github-actions"
+                  "User-Agent": "izhaksena-activity-graph"
               }
           )
 
           with urllib.request.urlopen(request) as response:
               result = json.loads(response.read().decode("utf-8"))
 
-          calendar = result["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]
+          # Mostrar a resposta caso o GitHub retorne algum erro
+          if "errors" in result:
+              print("GitHub GraphQL returned an error:")
+              print(json.dumps(result["errors"], indent=2))
+              raise SystemExit(1)
+
+          if "data" not in result:
+              print("Unexpected GitHub API response:")
+              print(json.dumps(result, indent=2))
+              raise SystemExit(1)
+
+          user = result["data"]["user"]
+
+          if user is None:
+              print("GitHub user not found:", username)
+              raise SystemExit(1)
+
+          calendar = user["contributionsCollection"]["contributionCalendar"]
 
           total = calendar["totalContributions"]
           weeks = calendar["weeks"]
@@ -101,10 +115,6 @@ jobs:
           text = "#E8FFFF"
           muted = "#6C8A91"
 
-          # ==========================================================
-          # SVG HEADER
-          # ==========================================================
-
           svg = []
 
           svg.append(
@@ -117,14 +127,14 @@ jobs:
               f'<rect width="100%" height="100%" fill="{background}"/>'
           )
 
-          # Outer panel
-
           svg.append(
               f'<rect x="20" y="20" width="{width-40}" height="{height-40}" '
               f'rx="10" fill="{panel}" stroke="{border}" stroke-width="1"/>'
           )
 
-          # Top title
+          # ==========================================================
+          # HEADER
+          # ==========================================================
 
           svg.append(
               f'<text x="45" y="60" fill="{primary}" '
@@ -269,14 +279,10 @@ jobs:
               f'CONTRIBUTION SYSTEM OPERATIONAL</text>'
           )
 
-          # Footer
-
-          now = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-
           svg.append(
               f'<text x="45" y="390" fill="{muted}" '
               f'font-family="monospace" font-size="11">'
-              f'LAST SYNCHRONIZATION: {now}</text>'
+              f'ACTIVITY DATA // IZHAKSENA</text>'
           )
 
           svg.append(
@@ -292,9 +298,12 @@ jobs:
           with open("profile/activity.svg", "w", encoding="utf-8") as file:
               file.write("\n".join(svg))
 
-          print("Activity graph generated successfully.")
+          print("======================================")
+          print("Activity graph generated successfully")
+          print("======================================")
           print(f"Total contributions: {total}")
           print(f"Active days: {active_days}")
+          print(f"Maximum daily contributions: {max_count}")
           PY
 
       - name: Commit Activity Graph
