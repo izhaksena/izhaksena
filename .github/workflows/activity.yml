@@ -1,0 +1,309 @@
+name: Generate Activity Graph
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Activity Graph
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import urllib.request
+          from datetime import datetime
+
+          username = "izhaksena"
+          token = os.environ["GITHUB_TOKEN"]
+
+          query = """
+          query {
+            viewer {
+              login
+              contributionsCollection {
+                contributionCalendar {
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      contributionCount
+                      date
+                    }
+                  }
+                }
+              }
+            }
+          }
+          """
+
+          data = json.dumps({
+              "query": query
+          }).encode("utf-8")
+
+          request = urllib.request.Request(
+              "https://api.github.com/graphql",
+              data=data,
+              headers={
+                  "Authorization": f"Bearer {token}",
+                  "Content-Type": "application/json",
+                  "User-Agent": "github-actions"
+              }
+          )
+
+          with urllib.request.urlopen(request) as response:
+              result = json.loads(response.read().decode("utf-8"))
+
+          calendar = result["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]
+
+          total = calendar["totalContributions"]
+          weeks = calendar["weeks"]
+
+          days = []
+
+          for week in weeks:
+              for day in week["contributionDays"]:
+                  days.append(day)
+
+          active_days = sum(
+              1 for day in days
+              if day["contributionCount"] > 0
+          )
+
+          max_count = max(
+              [day["contributionCount"] for day in days] or [1]
+          )
+
+          # ==========================================================
+          # SVG CONFIGURATION
+          # ==========================================================
+
+          width = 1200
+          height = 430
+
+          background = "#05070A"
+          panel = "#0A0F14"
+          border = "#00F5FF"
+          primary = "#00F5FF"
+          secondary = "#00A8FF"
+          text = "#E8FFFF"
+          muted = "#6C8A91"
+
+          # ==========================================================
+          # SVG HEADER
+          # ==========================================================
+
+          svg = []
+
+          svg.append(
+              f'<svg xmlns="http://www.w3.org/2000/svg" '
+              f'width="{width}" height="{height}" '
+              f'viewBox="0 0 {width} {height}">'
+          )
+
+          svg.append(
+              f'<rect width="100%" height="100%" fill="{background}"/>'
+          )
+
+          # Outer panel
+
+          svg.append(
+              f'<rect x="20" y="20" width="{width-40}" height="{height-40}" '
+              f'rx="10" fill="{panel}" stroke="{border}" stroke-width="1"/>'
+          )
+
+          # Top title
+
+          svg.append(
+              f'<text x="45" y="60" fill="{primary}" '
+              f'font-family="monospace" font-size="24" font-weight="bold">'
+              f'&gt; ACTIVITY_MONITOR</text>'
+          )
+
+          svg.append(
+              f'<text x="45" y="88" fill="{muted}" '
+              f'font-family="monospace" font-size="13">'
+              f'GITHUB CONTRIBUTION MATRIX // SYSTEM ACTIVITY</text>'
+          )
+
+          # ==========================================================
+          # STATISTICS
+          # ==========================================================
+
+          svg.append(
+              f'<text x="820" y="55" fill="{muted}" '
+              f'font-family="monospace" font-size="11">'
+              f'TOTAL CONTRIBUTIONS</text>'
+          )
+
+          svg.append(
+              f'<text x="820" y="78" fill="{primary}" '
+              f'font-family="monospace" font-size="20" font-weight="bold">'
+              f'{total}</text>'
+          )
+
+          svg.append(
+              f'<text x="990" y="55" fill="{muted}" '
+              f'font-family="monospace" font-size="11">'
+              f'ACTIVE DAYS</text>'
+          )
+
+          svg.append(
+              f'<text x="990" y="78" fill="{secondary}" '
+              f'font-family="monospace" font-size="20" font-weight="bold">'
+              f'{active_days}</text>'
+          )
+
+          # ==========================================================
+          # CONTRIBUTION GRID
+          # ==========================================================
+
+          start_x = 45
+          start_y = 125
+
+          cell = 13
+          gap = 4
+
+          colors = [
+              "#0D171C",
+              "#073B40",
+              "#06636A",
+              "#00A8B5",
+              "#00F5FF"
+          ]
+
+          for x, week in enumerate(weeks):
+
+              for y, day in enumerate(week["contributionDays"]):
+
+                  count = day["contributionCount"]
+
+                  if count == 0:
+                      level = 0
+                  else:
+                      ratio = count / max_count
+
+                      if ratio <= 0.25:
+                          level = 1
+                      elif ratio <= 0.50:
+                          level = 2
+                      elif ratio <= 0.75:
+                          level = 3
+                      else:
+                          level = 4
+
+                  color = colors[level]
+
+                  px = start_x + x * (cell + gap)
+                  py = start_y + y * (cell + gap)
+
+                  svg.append(
+                      f'<rect x="{px}" y="{py}" '
+                      f'width="{cell}" height="{cell}" rx="2" '
+                      f'fill="{color}">'
+                  )
+
+                  svg.append(
+                      f'<title>{day["date"]}: '
+                      f'{count} contributions</title>'
+                  )
+
+                  svg.append('</rect>')
+
+          # ==========================================================
+          # LEGEND
+          # ==========================================================
+
+          legend_y = 255
+
+          svg.append(
+              f'<text x="45" y="{legend_y+35}" fill="{muted}" '
+              f'font-family="monospace" font-size="11">'
+              f'ACTIVITY LEVEL</text>'
+          )
+
+          legend_x = 145
+
+          for i, color in enumerate(colors):
+
+              x = legend_x + i * 28
+
+              svg.append(
+                  f'<rect x="{x}" y="{legend_y+22}" '
+                  f'width="15" height="15" rx="2" fill="{color}"/>'
+              )
+
+          # ==========================================================
+          # SYSTEM STATUS
+          # ==========================================================
+
+          status_y = 320
+
+          svg.append(
+              f'<line x1="45" y1="{status_y}" '
+              f'x2="{width-45}" y2="{status_y}" '
+              f'stroke="#14333A" stroke-width="1"/>'
+          )
+
+          svg.append(
+              f'<text x="45" y="{status_y+35}" fill="{primary}" '
+              f'font-family="monospace" font-size="13">'
+              f'[ ONLINE ]</text>'
+          )
+
+          svg.append(
+              f'<text x="170" y="{status_y+35}" fill="{muted}" '
+              f'font-family="monospace" font-size="13">'
+              f'CONTRIBUTION SYSTEM OPERATIONAL</text>'
+          )
+
+          # Footer
+
+          now = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+
+          svg.append(
+              f'<text x="45" y="390" fill="{muted}" '
+              f'font-family="monospace" font-size="11">'
+              f'LAST SYNCHRONIZATION: {now}</text>'
+          )
+
+          svg.append(
+              f'<text x="870" y="390" fill="{primary}" '
+              f'font-family="monospace" font-size="11">'
+              f'SYSTEM_ID: IZHAK</text>'
+          )
+
+          svg.append('</svg>')
+
+          os.makedirs("profile", exist_ok=True)
+
+          with open("profile/activity.svg", "w", encoding="utf-8") as file:
+              file.write("\n".join(svg))
+
+          print("Activity graph generated successfully.")
+          print(f"Total contributions: {total}")
+          print(f"Active days: {active_days}")
+          PY
+
+      - name: Commit Activity Graph
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add profile/activity.svg
+
+          git commit -m "chore: update activity graph" || exit 0
+
+          git push
