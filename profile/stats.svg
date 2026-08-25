@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="260" viewBox="0 0 600 260">
+<rect width="600" height="260" fill="#0D1117"/>
+<rect x="10" y="10" width="580" height="240" rx="8" fill="#111820" stroke="#16333A" stroke-width="1"/>
+<text x="35" y="48" font-family="monospace" font-size="21px" font-weight="bold" fill="#00F5FF">&gt; GITHUB_STATISTICS</text>
+<text x="35" y="73" font-family="monospace" font-size="11px" font-weight="normal" fill="#6E7681">SYSTEM PROFILE // IZHAKSENA</text>
+<text x="40" y="115" font-family="monospace" font-size="25px" font-weight="bold" fill="#00F5FF">6</text>
+<text x="40" y="135" font-family="monospace" font-size="9px" font-weight="normal" fill="#6E7681">PUBLIC REPOSITORIES</text>
+<text x="240" y="115" font-family="monospace" font-size="25px" font-weight="bold" fill="#00F5FF">1</text>
+<text x="240" y="135" font-family="monospace" font-size="9px" font-weight="normal" fill="#6E7681">TOTAL STARS</text>
+<text x="440" y="115" font-family="monospace" font-size="25px" font-weight="bold" fill="#00F5FF">0</text>
+<text x="440" y="135" font-family="monospace" font-size="9px" font-weight="normal" fill="#6E7681">TOTAL FORKS</text>
+<text x="140" y="190" font-family="monospace" font-size="25px" font-weight="bold" fill="#00F5FF">0</text>
+<text x="140" y="210" font-family="monospace" font-size="9px" font-weight="normal" fill="#6E7681">FOLLOWERS</text>
+<text x="340" y="190" font-family="monospace" font-size="25px" font-weight="bold" fill="#00F5FF">0</text>
+<text x="340" y="210" font-family="monospace" font-size="9px" font-weight="normal" fill="#6E7681">FOLLOWING</text>
+<text x="35" y="235" font-family="monospace" font-size="10px" font-weight="bold" fill="#00A8FF">[ ONLINE ]</text>
+</svg>
