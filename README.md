@@ -60,7 +60,7 @@
 
 <img align="right" width="300" src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif"/>
 
-Olá Eu sou **Izhak Sena**, estudante de **Análise e Desenvolvimento de Sistemas na PUC Minas** e desenvolvedor em formação.
+Olá Eu sou **Izhak Madeira De Sena**, estudante de **Análise e Desenvolvimento de Sistemas na PUC Minas** e desenvolvedor em formação.
 
 Atualmente estou construindo minha base principalmente em **C#, Programação Orientada a Objetos, lógica de programação, JavaScript e desenvolvimento de sistemas**.
 
